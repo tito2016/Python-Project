@@ -1,0 +1,324 @@
+Change list
+------------
+
+Version numbering is YY.MM (and possibly .dd if necessary)
+
+vXX.XX to vXX.XX
+----------------
+New Features/Improvements:
+Internal changes:
+Fixes:
+
+
+v13.01 to v14.04
+----------------
+New Features/Improvements:
+
+Editor changes
+- Cell seperators in editor. 
+    Using #%% comments string to divide code. 
+    Execute current cell via F9
+- Keyboard shortcuts added.
+- Added autoindent feature
+    
+Console
+- New console autocompletes
+    Autocompletes for files paths (ctrl+space in string), tab/right arrow to 
+    navigate folders
+    Autocompletes for call args (ctrl+space in call bracket) and names.
+    Autocompletes for string keys in dictlike objects.
+    Plus type icon displayed in list, and speed improvements.
+- Keyboard shortcuts added.
+- Calltips and autocompletes enabled in debugger.
+- Command history working for interactive debugger prompts (Command history now
+    performed using published message from engine.)
+
+Internal changes:
+
+Fixes:
+
+v12.08 to v13.01
+----------------
+Small update mainly to fix MacOS  support:
+
+Bug fix to ensure working on MacOS /wxPython2.9
+Added gtk3 engine.
+Removed engine name option in engine launch - now use process id to unqiuely identify engines.
+
+v11.04 to v12.08
+----------------
+LICENSE CHANGED: Now licensed under a more liberal MIT License. 
+A license change was necessary to enable embedding engines in users applications
+without restrictive conditions of the GPL.
+
+New Features/Improvements:
+Changes to engines to allow embedding an engine in host applications using any 
+of the supported GUI toolkits.
+Improved setup.py installation script adding PTK menu item.
+New toolbars implemented should give better macos support and dropdown menu items.
+Added kill engine options (right click on engine tab)
+Added ctrl+enter to enter multi-line commands
+Added run script options: 
+    -   run in current engine
+    -   run in new engine
+    -   run as external process including a new script console to redirect stdIO
+         from the new process and hyperlinks to source files on exceptions.
+         
+Internal changes:
+Improved setup.py script. 
+Changed MessageBus system to simplify code and allow engines/console to be subclasses of clients/nodes
+Added: subscribe to parent subjects via e.g. 'Subject.subsubject' subcribers can subscribe to the full subject or just 'Subject'
+
+Fixes:
+Fixed bug when exiting/saving layouts with editor or console minimised or 
+maximised.
+Possible fix for bug when installing on windows with unicode usernames / 
+non-english locales.
+
+v10.10 to v11.04
+----------------
+New Features/Improvements:
+
+1) New  integrated debugger.
+2) Stopping running code - keyboard interupt added to allow running code to be 
+  stopepd even if not debugging
+3) Added PySide (Qt4) engine.
+
+Internal changes:
+
+Rewriten engine/message system - combine engine/message communications to
+allow engines to directly publish/send messages and allow debugger 
+implementation. Engines/console can now be started externally (i.e. remote
+engines or engines embedded into a user's application).
+
+Changed application structure to be installed as a python package. User 
+applications can now embed a PTK engine which can be controlled by the PTK 
+application.
+
+Fixes:
+various
+
+
+v10.07 to v10.10
+----------------
+New Features/Improvements:
+
+1) Added Exporter system - objects selection dialog and save to file dialog with 
+automatic file name generation based on object name, counter, date and timestamp
+
+2) Added Importer system - available from NSBrowser and console window menu.
+
+3) Changed pathmanager to use same working directory for all engines (the old 
+behaviour was to change the control to match cwd when engines were switched - 
+but this was annoying and could be confusing to beginners)
+
+4) Moved Numpy support to 'Numpy suport pack' tool to demonstrate the extension
+interfaces available to add python package/module support. 
+Added array icon and viewer for memory mapped arrays.
+
+5) Minor changes in NSBrowser - type displayed now shows 'module.type_name' to
+more fully describe the object type (if for example a type with the same name 
+is defined in different modules). Added Action object interface. 
+
+6) Changed default engine to wxExternal.
+
+Internal changes:
+Simplified tool structure removing TypeRegistry. Interfaces moved to NSBrowser 
+and a new Views tool to handle GUI viewers.
+
+Fixes:
+bug in StdIn from console.
+bug in StdErr (internal engine / application).
+Bug in NSBrowser when array selected then switching engines
+Bug in file save dialogs (command history load/save) when last file filter 
+selected on windowsXP.
+
+v10.04 to v10.07
+----------------
+New Features/Improvements:
+
+1) Added new gui toolkit engines
+    GTKExternal -  Allowing interactive use of the pygtk libary 
+    Qt4External -  Allowing interacive use of the pyQt4 libary.
+2) Modified engines to shutdown cleanly when crashed. Also added exit/quit 
+    commands to replace python builtins to shutdown engine cleanly.
+3) Modified engines to allow gui updates when reading user input (i.e. input / 
+    raw_input)
+4) Add engine enviroment options:
+        - to use the __future__ imports (division etc)
+        - to execute the python startup script specified by the environmental 
+            variable PYTHONSTARTUP found in Preferences>EngineManager
+5) Added view('objname') command to engines to open a gui view of the object.
+6) Editor recent documents list
+
+Internal changes:
+
+1) Major internal revision everything but the toolmanager and messenger are 
+Tools! This allows individual components to be isolated making it easier to 
+maintain and potential for autoupdate
+2) Changed to  either use wx.lib.agw.aui or wx.aui to take advantage of recent 
+changes (currently still using wx.aui as it is more stable, and lib.agw.aui has 
+problems with layouts)
+3) Messenger rewrite to simplify/improve structure.
+
+Fixes:
+
+Fixed pause/resume/cancel problem - when canceling a paused command, the engines
+paused state was not updated so following commands could not be paused.
+Fixed pasting into console to remove prompts if included.
+Address control modified to update autocomplete list correctly.
+Fixed engine switching when busy - status bar not updating. 
+EngineManager execption on shutdown when waiting for threads to finish.
+Fixed EngineManger reporting Tk engine as available on Ubuntu.
+
+v10.01 to v10.04
+----------------
+New Features/Improvements:
+
+1) New improved calltips - scrollable for long tips, check option to prevent 
+autoclose when typing command.
+2) Added commands in any engine:
+    ptk_help()              -         key help function
+    clear()                 -         clears the console
+    edit('filename')        -         open the filename in the ptk editor
+    inspect('objectname')   -         inpsect the object in the Inspector tool
+3) New engine: TkExternal - engine running in external process with a Tcl/Tk gui 
+mainloop allowing interactive use of the Tkinter module.
+4) New improved Inpsector tool - shows information depending on object type, 
+including (where applicable) doscsting, call arguments, constructor arguments, 
+constructor dosctring, source file (with icon to open file in editor), and 
+source.
+5) Added help tips to startup and help menus.
+
+Internal changes:
+
+1) Modified engine interface to allow extensions and simplify structure
+
+Fixes:
+
+External engines no longer import gui modules that are not required and use less
+memory.
+Another Unicode bug in console.
+Modifications to external engines to avoid noticable lag on linux (also improves
+winXP performance).
+Command history caused program to fail to start if history file was not present 
+(now creates file).
+Run code (option from editor/command history) no longer assumes more to come at 
+console prompt and runs it immediately.
+
+
+v09.07 to v10.01
+----------------
+New Features/Improvements:
+
+1)Added wxPython external engine.
+2)Program preferences dialog - added console options for engines to autostart, 
+display line numbers, calltips and autocompletions. 
+3)Revised/simplified command history - ctrl+up / ctrl+down will cycle through 
+the history. If a partial command is typed crtl+up / crtl+down will cycle 
+through the matching commands. Command history is stored to disk between 
+sesssions.
+4) Namespace Browser:
+Added GUI views of objects - doubling clicking on objects with a registered 
+viewer will open a new pane to display the object. 
+Current views are : String & unicode view, ndarray and list.
+Views will update when item changes value or type
+New views for object types can be added by Tools. 
+Added custom Type info strings - Tools can customise the string shown for 
+object types in the info column of the Namespace browser. The numpy array 
+example shows the size and dtype of the array rather than the default string.
+
+Internal changes:
+
+1)Further simplification of internal structure to support multiple python 
+engines (interpreters).
+
+Fixes:
+
+Fixed NSBrowser/Inspector and PathManager to update when engine switching.
+Fixed NSbrowser double click on empty space error
+console ExecSource message handler now shows the console if hidden.
+console context menu clear command now works.
+error when attempting to use unicode characters
+
+
+v09.03 to v09.07
+----------------
+New Features/Improvements:
+
+1) second instance (of program) checking with arguments passed to first 
+instance.
+2) Initial implementation of an external engine (no gui toolkit support yet).
+3) Console window toolbar changes - two toolbars; 
+        'Main' the main toolbar with new/open/cut/copy/paste
+        'Console' control current engine/console (pause, resume, cancel, 
+        settings, clear
+        and command history) and engine switching and creation)
+
+Internal changes:
+
+1) Major internal changes to support external engines and external tools.
+2) Module structure changed to support multiple engines and engine switching 
+(allowing the control of external process engines) 
+3) Internal messaging system (Messenger) major rewrite/new features:
+    -publish/subscribe system
+    -addressed messages with optional reply
+
+    -external connections using sockets.
+    -clients can connect to messenger and send/receive messages
+    -second instances of ptk now pass their input arguments to the first 
+     instance via messenger
+4) Added debug logging.
+
+Fixes:
+    
+Namespace browser -fixed key down bug   
+
+Editor -fixed bug when a file already open in the editor is dragged and dropped.
+Editor -fixed save when extension is entered.
+PathManager-select directory now starts in GUIs current working directory
+
+v09.02 to v09.03
+----------------
+New Features/Improvements:
+
+1) Namespace Browser:
+
+    -added actions context menu (Browse to, copy,rename,delete)
+    -fixed 'show modules' filter now shows even when 'show instances' is 
+        unchecked
+    -changed to a virtual list to avoid delays when listing large modules (like
+        wx)
+    -add sorting on name/type
+
+    The namespace browser is extendable via tools:
+    -new tools can add extra actions to the context menu depending upon the 
+        object type (see InfoBrowser)
+    -new tools can add extra type icons
+    -new tools can change the info string displayed for object types (standard 
+        is the python str() representation.
+
+2) NEW TOOL InfoBrowser:
+    -displays an information about an object (arguments, docstring etc)
+    -integrates with Namespace Browser with a menu item to 'Show in InfoBrowser'
+
+3) Console:
+    -Console calltips now shows for callable instances
+    -added simple console help function (ptk_help) to display keys
+ 
+4) Editor:
+    -split the editor edit menu into edit and format
+    -added format toolbar to editor
+    -added help menu items to editor menu (help does nothing, about shows the 
+        ptk about box)
+
+5) ClearSettings utility  (ClearSettings.pyw): 
+    -to clear all python toolkit settings to ensure no problems between 
+    versions.
+
+Internal changes:
+Fixes:
+
+
+
+ 

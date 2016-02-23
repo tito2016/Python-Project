@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=PythonToolkit (PTK)
+Comment=Program interactively in Python
+Exec=PTK -f %F
+Terminal=false
+Icon=ptkicon
+Type=Application
+Categories=Development;
+GenericName=
